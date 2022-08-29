@@ -102,10 +102,10 @@ select `custId`, `name`, `hp`, `addr` from `Customer` where `name` like '김%';
 select `custId`, `name`, `hp`, `addr` from `Customer` where `name` like '__';
 
 #실습 1-17
-select * from `Customer` where `hp`;
+select * from `Customer` where `hp` is null;
 
 #실습 1-18
-select * from `Customer` where `addr` ;
+select * from `Customer` where `addr` is not null;
 
 #실습 1-19
 select * from `Customer` order by `rdate` desc;
@@ -126,10 +126,28 @@ select COUNT(`name`) as `고객수` from `Customer`;
 select COUNT(`company`) as `제조업체 수` from `Product`;
 
 #실습 1-25
-select `` as ``, SUM() as `` from ``;
+select `orderProduct` as `주문 상품번호`, SUM(`orderCount`) as `총 주문수량` from `Order` group by `orderProduct` order by `orderProduct` asc;
 
 #실습 1-26
+select `company` as `제조업체`, COUNT(*) as `제품수`, MAX(`price`) as `최고가` from `Product` group by `company`;
+
 #실습 1-27
+select  `company` as `제조업체`, COUNT(*) as `제품수`, MAX(`price`) as `최고가` from `Product` group by `company` having `제품수`>=2;
+
 #실습 1-28
+select `orderProduct`,`orderId`,SUM(`orderCount`) as `총 주문수량` from `Order` group by `orderProduct`, `orderId` order by `orderProduct` asc;
+
 #실습 1-29
+select a.orderId, b.prodName from `Order` as a
+join `Product` as b
+on a.`orderProduct`=b.`prodNo`
+where `orderId`='c102';
+
 #실습 1-30
+select `orderId`, `name`, `prodName` ,`orderDate` from `Order` as a
+join `Customer` as b
+on a.`orderId`=b.`custId`
+join `Product` as c
+on a.`orderProduct`=c.`prodNo`
+where `orderDate`like'2022-07-03 %'
+
