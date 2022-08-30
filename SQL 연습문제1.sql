@@ -75,13 +75,13 @@ select * from `Product`;
 select `company` from `Product`;
 
 #실습 1-8
-select `company` from `Product`;
+select distinct `company` from `Product`;
 
 #실습 1-9
 select `prodName`, `price` from `Product`;
 
 #실습 1-10
-select `prodName`, `price`+500 from `Product`;
+select `prodName`, `price`+500 as `조정단가` from `Product`;
 
 #실습 1-11
 select `prodName`, `stock`, `price` from `Product` where `company` = '오리온';
@@ -120,10 +120,10 @@ select AVG(`price`) from `Product`;
 select SUM(`stock`) as `재고량 합계` from `Product` where `company`='농심';
 
 #실습 1-23
-select COUNT(`name`) as `고객수` from `Customer`;
+select COUNT(`custId`) as `고객수` from `Customer`;
 
 #실습 1-24
-select COUNT(`company`) as `제조업체 수` from `Product`;
+select COUNT(distinct `company`) as `제조업체 수` from `Product`;
 
 #실습 1-25
 select `orderProduct` as `주문 상품번호`, SUM(`orderCount`) as `총 주문수량` from `Order` group by `orderProduct` order by `orderProduct` asc;
@@ -149,5 +149,5 @@ join `Customer` as b
 on a.`orderId`=b.`custId`
 join `Product` as c
 on a.`orderProduct`=c.`prodNo`
-where `orderDate`like'2022-07-03 %'
+where substr(`orderDate`, 1, 10)='2022-07-03';
 
