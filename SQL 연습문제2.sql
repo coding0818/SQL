@@ -118,7 +118,7 @@ where `t_dist`=2;
 select * from `bank_account` where `a_item_dist`='S1' order by `a_balance` desc;
 
 #실습 2-18
-select * from `bank_account` where `a_item_dist`='S1' order by ;
+select * from `bank_account` where `a_item_dist`='S1' order by `a_balance` desc limit 1;
 
 #실습 2-19
 select * from `bank_transaction` 
@@ -133,7 +133,16 @@ COUNT(`t_dist`=3) as `조회 건수`
 from `bank_transaction`;
 
 #실습 2-21
-select  from `bank_transaction`;
+select  
+`t_dist`,
+case
+when `t_dist`=1 then '입금'
+when `t_dist`=2 then '출금'
+when `t_dist`=3 then '조회'
+end as 'type',
+`t_a_no`,
+`t_amount`
+from `bank_transaction`;
 
 #실습 2-22
 select `t_dist`,
