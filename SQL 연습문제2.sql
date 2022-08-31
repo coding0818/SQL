@@ -122,24 +122,24 @@ select * from `bank_account` where `a_item_dist`='S1' order by `a_balance` desc 
 
 #실습 2-19
 select * from `bank_transaction` 
-where `t_dist`=1 or `t_dist`=2
-order by `t_dist`, `t_amount` desc;
+where `t_dist`<>3
+order by `t_dist` asc, `t_amount` desc;
 
 #실습 2-20
 select 
-COUNT(`t_dist`=1) as `입금 건수`,
-COUNT(`t_dist`=2) as `출금 건수`,
-COUNT(`t_dist`=3) as `조회 건수`
+COUNT(if(`t_dist`=1,1,null)) as `입금 건수`,
+COUNT(if(`t_dist`=2,1,null)) as `출금 건수`,
+COUNT(if(`t_dist`=3,1,null)) as `조회 건수`
 from `bank_transaction`;
 
 #실습 2-21
 select  
 `t_dist`,
 case
-when `t_dist`=1 then '입금'
-when `t_dist`=2 then '출금'
-when `t_dist`=3 then '조회'
-end as 'type',
+when (`t_dist`=1) then '입금'
+when (`t_dist`=2) then '출금'
+when (`t_dist`=3) then '조회'
+end as `type`,
 `t_a_no`,
 `t_amount`
 from `bank_transaction`;
@@ -203,18 +203,18 @@ on a.a_no = b.t_a_no;
 select 
 `t_no`, `a_no`, `c_no`, `t_dist`, `a_item_name`, `c_name`, `t_amount`, `t_datetime`
 from `bank_transaction` as a
-join `bank_account` as b
-on a.t_a_no = b.a_no
+join `bank_account` as b on a.t_a_no = b.a_no
+join `bank_customer` as c on b.a_c_no = c.c_no
 where `t_dist`=1
 order by `t_amount` desc;
 
 #실습 2-30
 select 
 `t_no`, `a_no`, `c_no`, `t_dist`, `a_item_name`, `c_name`,
-COUNT(`t_no`) as `거래건수`
+COUNT(`c_no`) as `거래건수`
 from `bank_transaction` as a
 join `bank_account` as b on a.t_a_no = b.a_no
 join `bank_customer` as c on b.a_c_no=c.c_no 
 where `t_dist` in(1,2) and `c_dist`=1
-group by `t_dist`
+group by `c_no`
 order by `t_dist` asc, `거래건수` desc;
