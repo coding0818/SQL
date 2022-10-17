@@ -16,7 +16,7 @@ create table `Customer`(
              `phone` varchar(13) default null);
 
 create table `Book`(
-             `bookId` int primary key,
+             `bookId` int primary key auto_increment,
              `bookName` varchar(20) not null,
              `publisher` varchar(20) not null,
              `price` int default null);
